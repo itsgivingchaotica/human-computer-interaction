@@ -1,0 +1,106 @@
+:root {
+--lavender-floral: #B791EAff;
+--tropical-indigo: #958BE2ff;
+--vista-blue: #A2A3E6ff;
+--savoy-blue: #4663C4ff;
+--space-cadet: #242853ff;
+}
+
+body {
+  background-image: url("purplebackgrond.jpg");
+  background-size: 1500px;
+  border: wrap 2px solid;
+}
+
+.App {
+  text-align: center;
+  justify-content: center;
+}
+
+.taskBg {
+  background-color: var(--vista-blue);
+  border-radius: 6px;
+  margin-bottom: 20px;
+  padding: 10px 140px 10px 15px;
+  text-align: left;
+  font-size: 22px;
+  position: relative;
+  color: var(--space-cadet);
+}
+
+.taskBg div {
+  display: flex;
+  align-items: center;
+  border-bottom: black;
+}
+
+.taskNumber {
+  color: darkgreen;
+  border: 1px solid darkgreen;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  text-align: center;
+  font-size: 14px;
+  margin-right: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.taskBg .done .taskText {
+  text-decoration: line-through;
+  opacity: 0.3;
+  flex: 1;
+}
+task box scale to fit word
+.taskBg .taskText {
+  flex: 1;
+}
+
+.taskBg .done .taskText {
+  text-decoration: line-through;
+  opacity: 0.3;
+}
+
+.taskBg .wrap {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 15px;
+  width:auto;
+  display: inline-block;
+}
+
+.taskBg .wrap span {
+  display: inline-block;
+  margin: 0px 10px 0px 10px;
+  cursor: pointer;
+  color: purple;
+}
+
+.taskBg .wrap .green:hover {
+  color: green;
+}
+.taskBg .wrap .yellow:hover {
+  color: yellow;
+}
+.taskBg .wrap .red:hover {
+  color: red;
+}
+
+.inputToDo{
+  display: flex;
+  /* gap: 2%; */
+}
+
+.isExpanded{
+  display: flex;
+}
+.sidebar {
+  background-color: green;
+  min-height: 100%;
+  border-radius: 10px;
+  padding: 0px 0px 500px 0px;
+  vertical-align: text-top;
+}
