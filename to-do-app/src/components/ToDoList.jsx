@@ -28,6 +28,7 @@ const ToDoList = ({ toDo, setIsExpanded, markDone, setUpdateData, deleteTask, se
             {/* <Col className = "taskBg"> */}
             <div className = {task.status ? 'done' : ''}>
       {/* <HexColorPicker color={currentColor}onChange={updatedColor => handleOnChange(updatedColor)}/> */}
+
               <span className="taskNumber">{index+1}</span>
               <span className="taskText">{task.title}</span>
               <span className={isExpanded ? "hideTaskDate" : "taskDate"}>

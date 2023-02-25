@@ -4,7 +4,6 @@ import AddSubtaskForm from './components/AddSubtaskForm.jsx';
 import Subtask from "./components/Subtask.js";
 import UpdateForm from './components/UpdateForm.jsx';
 import ToDoList from './components/ToDoList.jsx';
-import SubtaskList from "./components/SubtaskList.js"
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,7 +16,9 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import {TwitterPicker} from 'react-color'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 //color by category
 //categorize by importance, or pin important tasks
 //task subcategories
@@ -36,8 +37,10 @@ function App() {
   const [index,setIndex] = useState('');
   const [date,setDate] = useState(new Date());
   const [type, setType] = useState('');
-  const [currentColor, setCurrentColor] = useState("");
+  // const [currentColor, setCurrentColor] = useState("");
 
+  const [currentColor, setCurrentColor] = useState("#fff");
+  
   const handleOnClick = () => {
     setActive()
   }
@@ -51,6 +54,7 @@ function App() {
   const [isExpanded, setIsExpanded] = useToggle();
   const [isListed, setIsListed] = useToggle();
   const [active,setActive] = useToggle();
+  const [currentColor2, setCurrentColor2] = useState("fff");
 
   // const [normal, setNormal] = useState(false);
   // const [urgent, setUrgent] = useState(false);
@@ -77,9 +81,9 @@ function App() {
 
   //their setTasks is our setToDo
   
-  const handleOnChange = (selectColor) => {
-    console.log(selectColor);
-    setCurrentColor(selectColor.hex);
+  const handleOnChange = (color) => {
+    console.log(color);
+    setCurrentColor(color.hex);
   }
 
   const addSubtask = (taskIndex) => {
@@ -100,11 +104,12 @@ function App() {
   const addTask = () => {
     if(newTask) {
       let num = toDo.length + 1;
-      let newEntry = { id: num, title: newTask, status: false, dateSelect: date, priorityType: type, background: currentColor, subtask: []};
+      let newEntry = { id: num, title: newTask, status: false, dateSelect: date, priorityType: type, background: `${currentColor}`, subtask: []};
+      console.log(newEntry);
       setToDo([...toDo, newEntry]);
       //clear temp state
       setNewTask('');
-      setCurrentColor('');
+      setCurrentColor("#fff");
       setDate(new Date());
     }
   }
@@ -135,16 +140,21 @@ function App() {
 
   // change task for update
  const changeTask = (e,toDo,index) => {
+  // if (currentColor2==="#fff"){
+  //   setCurrentColor2("pink");
+  // }
     let newEntry = {
       id: updateData.id,
       title: e.target.value,
       status: updateData.status ? true : false,
       dateSelect: date, 
       priorityType: type,
-      background: "green",
+      // background: `${currentColor}`,
+      background: `${currentColor2}`,
       subtask: []
     }
     setUpdateData(newEntry);
+    setCurrentColor("#fff");
   }
 
   // update task
@@ -167,10 +177,6 @@ function App() {
     }
   };
 
-  const taskStyle = {
-    backgroundColor: currentColor
-  }
-
   return (
     
     <div className="container App">
@@ -186,7 +192,8 @@ function App() {
       )}
     </Form> */}
     <Form>
-      <AddTaskForm newTask={newTask} setNewTask={setNewTask} addTask={addTask} date={date} setDate={setDate} type={type} setType={setType} handleOnClick={handleOnClick} currentColor={currentColor} setCurrentColor={setCurrentColor}/>
+    
+      <AddTaskForm newTask={newTask} setNewTask={setNewTask} addTask={addTask} date={date} setDate={setDate} type={type} setType={setType} handleOnClick={handleOnClick} currentColor={currentColor} setCurrentColor={setCurrentColor} isExpanded={isExpanded}/>
     </Form>
 
     {/* Display ToDos*/}
@@ -194,7 +201,7 @@ function App() {
     {toDo && toDo.length ? '' : 'No Tasks...'} 
     <Row>
     <Col>
-      <ToDoList toDo={toDo} setIsExpanded={setIsExpanded} isExpanded={isExpanded} markDone={markDone} setUpdateData={setUpdateData} deleteTask={deleteTask} setIndex={setIndex} setIsListed={setIsListed} date={date} type={type} currentColor={currentColor} setCurrentColor={setCurrentColor} handleOnChange={handleOnChange} handleOnClick={handleOnClick} takeStyle={taskStyle} active={active}/>
+      <ToDoList toDo={toDo} setIsExpanded={setIsExpanded} isExpanded={isExpanded} markDone={markDone} setUpdateData={setUpdateData} deleteTask={deleteTask} setIndex={setIndex} setIsListed={setIsListed} date={date} type={type} currentColor={currentColor} setCurrentColor={setCurrentColor} handleOnChange={handleOnChange} handleOnClick={handleOnClick} active={active}/>
       {/* <Form.Control placeholder="Finalize Task" value={newTask} onChange={(e) => setNewTask( e.target.value)}/> */}
     </Col>
     {!isExpanded ? null : (
@@ -202,8 +209,15 @@ function App() {
       <Container className="background">
         <Row> 
           <Col className="sidebar">
-          <UpdateForm toDo={toDo} updateData={updateData} changeTask={changeTask} updateTask={updateTask} cancelUpdate={cancelUpdate} setIsExpanded={setIsExpanded} index={index}/>
+          <UpdateForm toDo={toDo} updateData={updateData} changeTask={changeTask} updateTask={updateTask} cancelUpdate={cancelUpdate} setIsExpanded={setIsExpanded} index={index} setCurrentColor2={setCurrentColor2} currentColor2={currentColor2}/>
+          {/* <TwitterPicker
+        color={currentColor2}
+        onChangeComplete={(color) => {
+            setCurrentColor2(color.hex)
+        }}
+      /> */}
           <Form>
+          
             <AddSubtaskForm newSubtask={newSubtask} setNewSubtask={setNewSubtask} addSubtask={addSubtask} index={index} handleKeyDown={handleKeyDown}/>
             {/* instead of adding task, we had subtask */}
           </Form>

@@ -14,7 +14,7 @@ body {
 
 .App {
   text-align: center;
-  justify-content: center;
+ justify-content: center;
 }
 
 .taskBg {
@@ -48,6 +48,10 @@ body {
   margin-right: 8px;
   align-items: center;
   justify-content: center;
+}
+
+.datePicker {
+  width: 100%;
 }
 
 .taskBg .done .taskText {
