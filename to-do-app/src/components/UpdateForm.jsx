@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,16 +11,17 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const UpdateForm = ({ updateData, changeTask, updateTask, cancelUpdate }) => {
+const UpdateForm = ({ updateData, changeTask, updateTask, cancelUpdate, index, setSubtasks, newSubtask, setNewSubtask, setIsExpanded }) => {
+
     return(
   <Form.Group className="mb-3" controlId="formBasicEmail">
       <Row> 
       <Col className="inputToDo">
         <Form.Control placeholder="Update task" 
-          value={ updateData && updateData.title } 
+          value={ updateData && updateData.title }
           onChange={ (e) => changeTask(e) } />
         <span className="inputToDo"> 
-      <Button variant="primary" type="submit" onClick={updateTask}>
+      <Button variant="primary" type="submit" onClick={() => updateTask(index)}>
         <span>
             <FontAwesomeIcon icon={faCircleCheck}/>
           </span>

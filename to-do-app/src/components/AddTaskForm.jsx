@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState,useCallback} from 'react';
 import '../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -10,15 +10,24 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import "bootstrap/dist/css/bootstrap.min.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 // newTask, setNewTask, addTask are props
-const AddTaskForm = ({ newTask, setNewTask, addTask }) => {
+const AddTaskForm = ({ newTask, setNewTask, addTask, date, type, setType, format, inputFormat, mode, startOfWeek, availableDates, minimalDate, setDate, handleSelect, blockPickerColor, setBlockPickerColor, handleOnClick, currentColor, setCurrentColor }) => {
     return(
         <>
-    <Form.Group className="mb-3 shadow rounded" controlId="formBasicPassword">
+    <Form.Group className="mb-3 rounded" controlId="formBasicPassword">
       <Row >
       <Col className="inputToDo">
-      <Form.Control placeholder="Finalize Task" value={newTask} onChange={(e) => setNewTask( e.target.value)}/>
+      
+      <Form.Control placeholder="Add task, queen ;)" value={newTask} onChange={(e) => setNewTask( e.target.value)}/>
+      <Form.Control placeholder="input color ;)" value={currentColor} onChange={(e) => setCurrentColor( e.target.value)}/>
+        <DatePicker 
+      selected={date} 
+      dateFormat="MMMM d, yyyy"
+      onChange={date => setDate(date)}   
+      />
       <Button variant="success">
           <span>
                 <FontAwesomeIcon icon={faSquarePlus} onClick={addTask}/>
