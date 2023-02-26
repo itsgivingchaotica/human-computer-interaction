@@ -23,6 +23,7 @@ const Subtask = ({
   markDone, 
   setUpdateData,
   deleteTask,
+  deleteSubtasks,
 }) => {
   // const [subtaskTitle, setSubtaskTitle] = useState(subtask.subtaskTitle)
   return (
@@ -37,16 +38,8 @@ const Subtask = ({
               <span className="taskText">{subtask.subtaskTitle}</span>
             </div>
             <div className="wrap">
-              <span className = "green" onClick={ (e) => markDone(subtask.id)}>
-                <FontAwesomeIcon icon={faCircleCheck}/>
-              </span>
-              {subtask.status ? null : (
-                <span className = "yellow" onClick={ () => setUpdateData({ id: subtask.id, title: subtask.title, status: subtask.status ? true : false })}>
-                <FontAwesomeIcon icon={faPenToSquare}/>
-              </span>
-              )}
               <span className = "red">
-                <FontAwesomeIcon icon={faTrashCan} onClick={()=> deleteTask(subtask.id)}/>
+                <FontAwesomeIcon icon={faTrashCan} onClick={()=> deleteSubtasks(subIndex,toDoIndex)}/>
               </span>
             </div>
             </Col>
@@ -56,9 +49,6 @@ const Subtask = ({
         </React.Fragment>
     </>
   );
-  console.log(subtask.subtaskTitle);
-    console.log(subIndex);
-    console.log(toDoIndex);
 };
 
 export default Subtask;

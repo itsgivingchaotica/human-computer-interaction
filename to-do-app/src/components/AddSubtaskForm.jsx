@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCircleCheck, faPenToSquare, faTrashCan, faSquarePlus, faXmark
 } from '@fortawesome/free-solid-svg-icons';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -16,6 +15,7 @@ const AddSubtaskForm = ({ newSubtask, setNewSubtask, addSubtask, index, setSubta
     return(
         <>
     <Form.Group className="mb-3 shadow rounded" controlId="formBasicPassword">
+    
       <Row>
       <Col className="inputToDo">
       <Form.Control placeholder="Add subtask !!" value={newSubtask} onChange={(e) => setNewSubtask( e.target.value)}/>

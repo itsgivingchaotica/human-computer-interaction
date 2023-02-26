@@ -1,29 +1,19 @@
-import React, {useState,useCallback} from 'react';
+import React, {useState,useCallback,useEffect} from 'react';
 import AddTaskForm from './components/AddTaskForm.jsx';
 import AddSubtaskForm from './components/AddSubtaskForm.jsx';
 import Subtask from "./components/Subtask.js";
 import UpdateForm from './components/UpdateForm.jsx';
 import ToDoList from './components/ToDoList.jsx';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCircleCheck, faPenToSquare, faTrashCan, faSquarePlus, faXmark
-} from '@fortawesome/free-solid-svg-icons';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import Accordion from 'react-bootstrap/Accordion';
+import Confetti from 'react-confetti';
 import Button from 'react-bootstrap/Button';
-import "bootstrap/dist/css/bootstrap.min.css";
-import {TwitterPicker} from 'react-color'
-import DatePicker from "react-datepicker";
+import './App.css';
 import "react-datepicker/dist/react-datepicker.css";
-//color by category
-//categorize by importance, or pin important tasks
-//task subcategories
-//autofocus into form and = submit in addition to add button
-//
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 
@@ -40,6 +30,7 @@ function App() {
   // const [currentColor, setCurrentColor] = useState("");
 
   const [currentColor, setCurrentColor] = useState("#fff");
+  const [showConfetti, setShowConfetti] = useState(false);
   
   const handleOnClick = () => {
     setActive()
@@ -55,34 +46,8 @@ function App() {
   const [isListed, setIsListed] = useToggle();
   const [active,setActive] = useToggle();
   const [currentColor2, setCurrentColor2] = useState("fff");
-
-  // const [normal, setNormal] = useState(false);
-  // const [urgent, setUrgent] = useState(false);
-  // const [longterm, setLongterm] = useState(false);
-  // const [optional, setOptional] = useState(false);
-  // const [isGroup,setGroup] = useState([]);
-  // const handleSelect = (e) => {
-  //       if (e.target.value==="Normal")
-  //            setType("normal");
-  //       else if (e.target.value==="Urgent!")
-  //            setType("urgent");
-  //       else if (e.target.value==="Long-term goal")
-  //            setType("longterm");
-  //       else if (e.target.value==="Optional")
-  //            setType("optional");
-  //   }
-  // const [newSubtask, setNewSubtask] = useState(Array.from({length: n},()=> Array.from({length: n}, () => null)));
-
-  // const handleChange = (row, column, event) => {
-  //   let subtaskList = [...newSubtask];
-  //   subtaskList[row][column] = +event.target.value;
-  //   setNewSubtask(subtask);
-  // }
-
-  //their setTasks is our setToDo
   
   const handleOnChange = (color) => {
-    console.log(color);
     setCurrentColor(color.hex);
   }
 
@@ -105,7 +70,6 @@ function App() {
     if(newTask) {
       let num = toDo.length + 1;
       let newEntry = { id: num, title: newTask, status: false, dateSelect: date, priorityType: type, background: `${currentColor}`, subtask: []};
-      console.log(newEntry);
       setToDo([...toDo, newEntry]);
       //clear temp state
       setNewTask('');
@@ -120,6 +84,51 @@ function App() {
     setToDo(newTasks);
   }
 
+  const markSubDone = (subid, index) => {
+    let newSubTask = toDo[index].subtask.map ( subtask => {
+      if(subtask.id===subid){
+        //toggle status, cross out if toggled to true(task completed)
+        return ({...subtask, status: !subtask.status })
+      }
+      return subtask;
+    })
+    setToDo(newSubTask);
+  }
+
+  const deleteSubtasks = (subId,index) => {
+    // let extract = toDo[index].subtask.map(x => x[subId]);
+    // console.log(extract);
+  const tasksCopy = [...toDo];
+    tasksCopy[index].subtask.splice(subId,1);
+    console.log(tasksCopy);
+    setToDo(tasksCopy);
+    // let newSubtasks = toDo[index].subtask.filter( extract => extract.id !== subId);
+    // console.log(newSubtasks);
+
+    // const lindex = toDo[lindex].indexOf(subId);
+    // if (lindex > -1){
+    //   toDo[lindex].splice(lindex,1);
+    // }
+
+    console.log(toDo[index]);
+
+    // for (let i=0; i<newSubtasks.length; i++)
+    // {
+    //   // setNewSubtask(newSubtasks[i]);
+    //   console.log(newSubtasks[i]);
+    //   // addSubtask(index);
+    // }
+    
+    // toDo[index].push(newSubtasks);
+    // const taskListCopy = [...toDo];
+    //     taskListCopy[index].subtask.push(newSubtasks);
+    //     setToDo(taskListCopy);
+    // toDo[index][0] = newSubtasks;
+    // addSubtask(index);
+    
+    // setToDo(toDo);
+    // toDo[index].push(newSubtasks);
+  }
   // mark task completed
   const markDone = (id) => {
     let newTask = toDo.map ( task => {
@@ -129,8 +138,20 @@ function App() {
       }
       return task;
     })
+    setShowConfetti(true);
     setToDo(newTask);
   }
+
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      // After 3 seconds set the show value to false
+      setShowConfetti(false)
+    }, 8000)
+
+    return () => {
+      clearTimeout(timeId)
+    }
+  }, [showConfetti]);
 
   // Cancel update
 
@@ -169,28 +190,37 @@ function App() {
     setIsExpanded(); 
   }
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      // event.preventDefault();
-      // 👇 Get input value
-      addSubtask(index);
-    }
-  };
-
   return (
     
     <div className="container App">
     <br /><br />
-    <h2>To Do List App (ReactJS)</h2>
+    <h2 className="font">To Do!</h2>
     <br /><br />
-
-    {/* <Form> 
-      {updateData && updateData ? (
-        <UpdateForm updateData={updateData} changeTask={changeTask} updateTask={updateTask} cancelUpdate={cancelUpdate}/>
-      ) : (
-        <AddTaskForm newTask={newTask} setNewTask={setNewTask} addTask={addTask}/>
-      )}
-    </Form> */}
+    <Accordion>
+      <Accordion.Item eventKey="0" className="pretty">
+        <Accordion.Header><b>How do I work this thing?</b></Accordion.Header>
+        <Accordion.Body>
+          It's actually pretty easy. Write down your task, pick a theme color, and choose a Due Date! The customization of the theme is completely up to you. <br></br>
+          You can even make subtasks. Simply press the "write" button to make an update to the task theme and title (must be edited together) or add and delete subtasks. Press the "write" key again to exit the sidebar. <br></br>
+          You may mark tasks done, or if you made a mistake and want to relist the item, simply click button again to unslash your task.<br></br>
+          You may also delete the tasks by utilizing the trashcan button.
+          Now get productive! 
+        </Accordion.Body>
+      </Accordion.Item>
+      <Accordion.Item eventKey="1" className="pretty">
+        <Accordion.Header>References</Accordion.Header>
+        <Accordion.Body>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </Accordion.Body>
+      </Accordion.Item>
+    </Accordion>
+    <br /><br />
     <Form>
     
       <AddTaskForm newTask={newTask} setNewTask={setNewTask} addTask={addTask} date={date} setDate={setDate} type={type} setType={setType} handleOnClick={handleOnClick} currentColor={currentColor} setCurrentColor={setCurrentColor} isExpanded={isExpanded}/>
@@ -198,7 +228,11 @@ function App() {
 
     {/* Display ToDos*/}
     <Container>
-    {toDo && toDo.length ? '' : 'No Tasks...'} 
+    {showConfetti ? <Confetti/> : null}
+    <br></br>
+    <div className="emptytask">
+    {toDo && toDo.length ? '' : 'Let\'s get started!'} 
+    </div>
     <Row>
     <Col>
       <ToDoList toDo={toDo} setIsExpanded={setIsExpanded} isExpanded={isExpanded} markDone={markDone} setUpdateData={setUpdateData} deleteTask={deleteTask} setIndex={setIndex} setIsListed={setIsListed} date={date} type={type} currentColor={currentColor} setCurrentColor={setCurrentColor} handleOnChange={handleOnChange} handleOnClick={handleOnClick} active={active}/>
@@ -218,7 +252,7 @@ function App() {
       /> */}
           <Form>
           
-            <AddSubtaskForm newSubtask={newSubtask} setNewSubtask={setNewSubtask} addSubtask={addSubtask} index={index} handleKeyDown={handleKeyDown}/>
+            <AddSubtaskForm newSubtask={newSubtask} setNewSubtask={setNewSubtask} addSubtask={addSubtask} index={index}/>
             {/* instead of adding task, we had subtask */}
           </Form>
           {/* <ToDoList toDo={toDo} setIsExpanded={setIsExpanded} isExpanded={isExpanded} markDone={markDone} setUpdateData={setUpdateData} deleteTask={deleteTask} setIndex={setIndex}/> */}
@@ -234,7 +268,8 @@ function App() {
       setNewSubtask={setNewSubtask}
       addSubtask={addSubtask}
       newSubtask={newSubtask}
-      toDoIndex={index}//here i need to find a way to add the toDo index
+      toDoIndex={index}
+      deleteSubtasks={deleteSubtasks}//here i need to find a way to add the toDo index
     />
     </div>
   )})

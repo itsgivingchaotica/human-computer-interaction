@@ -37,8 +37,8 @@ body {
 }
 
 .taskNumber {
-  color: darkgreen;
-  border: 1px solid darkgreen;
+  color: black;
+  border: 1px solid black;
   border-radius: 50%;
   width: 26px;
   height: 26px;
@@ -122,4 +122,22 @@ task box scale to fit word
   padding: 10px 0px 400px 0px;
   vertical-align: text-top;
   opacity: 80%;
+}
+
+.pretty {
+  background-color: var(--savoy-blue) !important;
+  font-family: 'Manrope', sans-serif !important;
+  text-align: left;
+  color: white !important;
+}
+
+.font {
+  font-family: 'Gloock', serif;
+  font-size: 86px;
+}
+
+.emptytask{
+  font-family: 'Manrope',
+    sans-serif;
+  font-size: 35px;
 }

@@ -23,7 +23,7 @@ const AddTaskForm = ({ newTask, setNewTask, addTask, date, type, setType, format
       <Row >
       <Col className="inputToDo">
       
-      <Form.Control placeholder="Add task, queen ;)" value={newTask} onChange={(e) => setNewTask( e.target.value)}/>
+      <Form.Control placeholder="Add task, queen :)" value={newTask} onChange={(e) => setNewTask( e.target.value)}/>
       {/* <Form.Control placeholder="input color ;)" value={currentColor} onChange={(e) => setCurrentColor( e.target.value)}/> */}
       <Button variant="success">
           <span>

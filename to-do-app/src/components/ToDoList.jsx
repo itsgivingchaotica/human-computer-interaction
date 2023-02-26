@@ -8,6 +8,7 @@ import {
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import "bootstrap/dist/css/bootstrap.min.css";
+import Button from 'react-bootstrap/Button';
 import { HexColorPicker } from "react-colorful";
 
 const ToDoList = ({ toDo, setIsExpanded, markDone, setUpdateData, deleteTask, setIndex, date, type, setIsDeleted,blockPickerColor, urgent,longterm,normal,optional, currentColor, setCurrentColor, handleOnChange, taskStyle, handleOnClick, active, isExpanded}) => {
@@ -19,9 +20,15 @@ const ToDoList = ({ toDo, setIsExpanded, markDone, setUpdateData, deleteTask, se
       //the to do list items with options to 
       return(
 
-        <React.Fragment key={task.id}> 
+
+        <React.Fragment key={task.id}>
+        
+        <br>
+        </br>
+        <br></br>
+        <br></br>
         <>
-<Form>
+        <Form>
         <div>
           <Row>
             <Col className = "taskBg" style={{backgroundColor: task.background }}>
@@ -44,7 +51,7 @@ const ToDoList = ({ toDo, setIsExpanded, markDone, setUpdateData, deleteTask, se
               </span>
               )}
               <span className = "red">
-                <FontAwesomeIcon icon={faTrashCan} onClick={()=> {deleteTask(task.id);setIsExpanded()}}/>
+                <FontAwesomeIcon icon={faTrashCan} onClick={()=> {deleteTask(task.id)}}/>
               </span>
             </div>
             </Col>
